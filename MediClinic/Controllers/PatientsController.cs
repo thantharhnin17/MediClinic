@@ -21,7 +21,8 @@ namespace MediClinic.Controllers
         // GET: Patients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Patients.ToListAsync());
+            var patients = await _context.Patients.ToListAsync();
+            return View("~/Views/Admin/Patients/Index.cshtml", patients);
         }
 
         // GET: Patients/Details/5
@@ -39,13 +40,13 @@ namespace MediClinic.Controllers
                 return NotFound();
             }
 
-            return View(patient);
+            return View("~/Views/Admin/Patients/Details.cshtml", patient);
         }
 
         // GET: Patients/Create
         public IActionResult Create()
         {
-            return View();
+            return View("~/Views/Admin/Patients/Create.cshtml");
         }
 
         // POST: Patients/Create
@@ -58,10 +59,10 @@ namespace MediClinic.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(patient);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            return View("~/Views/Admin/Patients/Create.cshtml", patient);
         }
 
         // GET: Patients/Edit/5
@@ -77,7 +78,7 @@ namespace MediClinic.Controllers
             {
                 return NotFound();
             }
-            return View(patient);
+            return View("~/Views/Admin/Patients/Edit.cshtml", patient);
         }
 
         // POST: Patients/Edit/5
@@ -112,7 +113,7 @@ namespace MediClinic.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            return View("~/Views/Admin/Patients/Edit.cshtml", patient);
         }
 
         // GET: Patients/Delete/5
@@ -130,7 +131,7 @@ namespace MediClinic.Controllers
                 return NotFound();
             }
 
-            return View(patient);
+            return View("~/Views/Admin/Patients/Delete.cshtml", patient);
         }
 
         // POST: Patients/Delete/5

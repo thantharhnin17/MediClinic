@@ -22,7 +22,7 @@ namespace MediClinic.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Booking", b =>
+            modelBuilder.Entity("Appointment", b =>
                 {
                     b.Property<int>("PatientID")
                         .HasColumnType("int");
@@ -30,10 +30,10 @@ namespace MediClinic.Migrations
                     b.Property<int>("VisitID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("BookingDate")
+                    b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("BookingID")
+                    b.Property<int>("AppointmentID")
                         .HasColumnType("int");
 
                     b.HasKey("PatientID", "VisitID");
@@ -130,7 +130,7 @@ namespace MediClinic.Migrations
                     b.ToTable("Patient", (string)null);
                 });
 
-            modelBuilder.Entity("Booking", b =>
+            modelBuilder.Entity("Appointment", b =>
                 {
                     b.HasOne("Patient", "Patient")
                         .WithMany()

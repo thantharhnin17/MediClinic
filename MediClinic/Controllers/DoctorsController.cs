@@ -21,7 +21,8 @@ namespace MediClinic.Controllers
         // GET: Doctors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Doctors.ToListAsync());
+            var doctors = await _context.Doctors.ToListAsync();
+            return View("~/Views/Admin/Doctors/Index.cshtml", doctors);
         }
 
         // GET: Doctors/Details/5
@@ -39,13 +40,13 @@ namespace MediClinic.Controllers
                 return NotFound();
             }
 
-            return View(doctor);
+            return View("~/Views/Admin/Doctors/Details.cshtml", doctor);
         }
 
         // GET: Doctors/Create
         public IActionResult Create()
         {
-            return View();
+            return View("~/Views/Admin/Doctors/Create.cshtml");
         }
 
         // POST: Doctors/Create
@@ -61,7 +62,7 @@ namespace MediClinic.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(doctor);
+            return View("~/Views/Admin/Doctors/Create.cshtml", doctor);
         }
 
         // GET: Doctors/Edit/5
@@ -77,7 +78,7 @@ namespace MediClinic.Controllers
             {
                 return NotFound();
             }
-            return View(doctor);
+            return View("~/Views/Admin/Doctors/Edit.cshtml", doctor);
         }
 
         // POST: Doctors/Edit/5
@@ -112,7 +113,7 @@ namespace MediClinic.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(doctor);
+            return View("~/Views/Admin/Doctors/Edit.cshtml", doctor);
         }
 
         // GET: Doctors/Delete/5
@@ -130,7 +131,7 @@ namespace MediClinic.Controllers
                 return NotFound();
             }
 
-            return View(doctor);
+            return View("~/Views/Admin/Doctors/Delete.cshtml", doctor);
         }
 
         // POST: Doctors/Delete/5

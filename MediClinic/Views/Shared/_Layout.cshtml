@@ -65,7 +65,7 @@
     <div class="container-fluid sticky-top bg-white shadow-sm">
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
-                <a href="index.html" class="navbar-brand">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-clinic-medical me-2"></i>Medinova</h1>
                 </a>
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-expanded="false">
@@ -73,9 +73,9 @@
                 </button>
                 <div class="navbar-collapse collapse" id="navbarCollapse" style="">
                     <div class="navbar-nav ms-auto py-0">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="service.html" class="nav-item nav-link">Service</a>
+                        <a class="nav-item nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="Service">Service</a>
 
 
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
@@ -85,11 +85,9 @@
         </div>
     </div>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+     <main role="main" class="pb-3">
+         @RenderBody()
+     </main>
 
     <div class="container-fluid bg-dark text-light mt-5 py-5">
         <div class="container py-5">
@@ -105,8 +103,8 @@
                     <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">Quick Links</h4>
                     <div class="d-flex flex-column justify-content-start">
                         <a class="text-light mb-2" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-angle-right me-2"></i>Home</a>
-                        <a class="text-light mb-2"><i class="fa fa-angle-right me-2"></i>About Us</a>
-                        <a class="text-light mb-2"><i class="fa fa-angle-right me-2"></i>Our Services</a>
+                        <a class="text-light mb-2" asp-area="" asp-controller="Home" asp-action="About"><i class="fa fa-angle-right me-2"></i>About Us</a>
+                        <a class="text-light mb-2" asp-area="" asp-controller="Home" asp-action="Service"><i class="fa fa-angle-right me-2"></i>Our Services</a>
                         <a class="text-light mb-2"><i class="fa fa-angle-right me-2"></i>Meet The Team</a>
                         <a class="text-light mb-2"><i class="fa fa-angle-right me-2"></i>Latest Blog</a>
                         <a class="text-light"><i class="fa fa-angle-right me-2"></i>Contact Us</a>

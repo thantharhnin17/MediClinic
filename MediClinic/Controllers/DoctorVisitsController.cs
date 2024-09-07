@@ -22,7 +22,8 @@ namespace MediClinic.Controllers
         public async Task<IActionResult> Index()
         {
             var clinicContext = _context.DoctorVisits.Include(d => d.Doctor);
-            return View(await clinicContext.ToListAsync());
+            var doctorVisits = await clinicContext.ToListAsync();
+            return View("~/Views/Admin/DoctorVisits/Index.cshtml", doctorVisits);
         }
 
         // GET: DoctorVisits/Details/5
@@ -41,14 +42,14 @@ namespace MediClinic.Controllers
                 return NotFound();
             }
 
-            return View(doctorVisit);
+            return View("~/Views/Admin/DoctorVisits/Details.cshtml", doctorVisit);
         }
 
         // GET: DoctorVisits/Create
         public IActionResult Create()
         {
             ViewData["DoctorID"] = new SelectList(_context.Doctors, "DoctorID", "FullName");
-            return View();
+            return View("~/Views/Admin/DoctorVisits/Create.cshtml");
         }
 
         // POST: DoctorVisits/Create
@@ -65,7 +66,7 @@ namespace MediClinic.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DoctorID"] = new SelectList(_context.Doctors, "DoctorID", "FullName", doctorVisit.DoctorID);
-            return View(doctorVisit);
+            return View("~/Views/Admin/DoctorVisits/Create.cshtml", doctorVisit);
         }
 
         // GET: DoctorVisits/Edit/5
@@ -82,7 +83,7 @@ namespace MediClinic.Controllers
                 return NotFound();
             }
             ViewData["DoctorID"] = new SelectList(_context.Doctors, "DoctorID", "FullName", doctorVisit.DoctorID);
-            return View(doctorVisit);
+            return View("~/Views/Admin/DoctorVisits/Edit.cshtml", doctorVisit);
         }
 
         // POST: DoctorVisits/Edit/5
@@ -118,7 +119,7 @@ namespace MediClinic.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DoctorID"] = new SelectList(_context.Doctors, "DoctorID", "FullName", doctorVisit.DoctorID);
-            return View(doctorVisit);
+            return View("~/Views/Admin/DoctorVisits/Edit.cshtml", doctorVisit);
         }
 
         // GET: DoctorVisits/Delete/5
@@ -137,7 +138,7 @@ namespace MediClinic.Controllers
                 return NotFound();
             }
 
-            return View(doctorVisit);
+            return View("~/Views/Admin/DoctorVisits/Delete.cshtml", doctorVisit);
         }
 
         // POST: DoctorVisits/Delete/5

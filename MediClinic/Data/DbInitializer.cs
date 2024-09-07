@@ -93,32 +93,7 @@ namespace MediClinic.Data
             }
             context.SaveChanges();
 
-            var bookings = new Booking[]
-            {
-               new Booking
-                {
-                    PatientID = patients.Single(p => p.FullName == "John Doe").PatientID,
-                    VisitID = doctorVisits.Single(dv => dv.DoctorID == doctors.Single(d => d.FullName == "Dr. Alice Johnson").DoctorID).VisitID,
-                    BookingDate = new DateTime(2024, 9, 5)
-                },
-                new Booking
-                {
-                    PatientID = patients.Single(p => p.FullName == "Jane Smith").PatientID,
-                    VisitID = doctorVisits.Single(dv => dv.DoctorID == doctors.Single(d => d.FullName == "Dr. Bob Williams").DoctorID).VisitID,
-                    BookingDate = new DateTime(2024, 9, 6)
-                },
-                new Booking
-                {
-                    PatientID = patients.Single(p => p.FullName == "Alex Taylor").PatientID,
-                    VisitID = doctorVisits.Single(dv => dv.DoctorID == doctors.Single(d => d.FullName == "Dr. Carol Davis").DoctorID).VisitID,
-                    BookingDate = new DateTime(2024, 9, 7)
-                }
-            };
-            foreach (Booking b in bookings)
-            {
-                context.Bookings.Add(b);
-            }
-            context.SaveChanges();
+            
         }
     }
 }
