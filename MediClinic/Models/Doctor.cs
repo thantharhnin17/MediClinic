@@ -19,4 +19,6 @@ public class Doctor
     [Required]
     [StringLength(255)]
     public string Specialization { get; set; }
+
+    public ICollection<DoctorVisit> DoctorVisits { get; set; }
 }

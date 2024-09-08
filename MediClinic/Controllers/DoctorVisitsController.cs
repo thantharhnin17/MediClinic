@@ -46,15 +46,12 @@ namespace MediClinic.Controllers
         }
 
         // GET: DoctorVisits/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["DoctorID"] = new SelectList(_context.Doctors, "DoctorID", "FullName");
+            DoctorDropDownList();
             return View("~/Views/Admin/DoctorVisits/Create.cshtml");
         }
 
-        // POST: DoctorVisits/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("VisitID,DoctorID,VisitDate,StartTime,EndTime")] DoctorVisit doctorVisit)
@@ -65,7 +62,8 @@ namespace MediClinic.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DoctorID"] = new SelectList(_context.Doctors, "DoctorID", "FullName", doctorVisit.DoctorID);
+
+            DoctorDropDownList(doctorVisit.DoctorID);
             return View("~/Views/Admin/DoctorVisits/Create.cshtml", doctorVisit);
         }
 
@@ -82,7 +80,7 @@ namespace MediClinic.Controllers
             {
                 return NotFound();
             }
-            ViewData["DoctorID"] = new SelectList(_context.Doctors, "DoctorID", "FullName", doctorVisit.DoctorID);
+            DoctorDropDownList(doctorVisit.DoctorID);
             return View("~/Views/Admin/DoctorVisits/Edit.cshtml", doctorVisit);
         }
 
@@ -118,7 +116,7 @@ namespace MediClinic.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DoctorID"] = new SelectList(_context.Doctors, "DoctorID", "FullName", doctorVisit.DoctorID);
+            DoctorDropDownList(doctorVisit.DoctorID);
             return View("~/Views/Admin/DoctorVisits/Edit.cshtml", doctorVisit);
         }
 
@@ -159,6 +157,13 @@ namespace MediClinic.Controllers
         private bool DoctorVisitExists(int id)
         {
             return _context.DoctorVisits.Any(e => e.DoctorID == id);
+        }
+        private void DoctorDropDownList(object selectedDoctor = null)
+        {
+            var doctorsQuery = from d in _context.Doctors
+                                   orderby d.FullName
+                                   select d;
+            ViewBag.DoctorID = new SelectList(doctorsQuery.AsNoTracking(), "DoctorID", "FullName", selectedDoctor);
         }
     }
 }

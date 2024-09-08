@@ -10,8 +10,8 @@
 <h4>Doctor</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col-12 input-group input-group-outline mb-3">
+        <form asp-action="Edit" class="admin-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DoctorID" />
             <div class="form-group">

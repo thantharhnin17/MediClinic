@@ -93,7 +93,42 @@ namespace MediClinic.Data
             }
             context.SaveChanges();
 
-            
+
         }
+
+        //public static void Initialize(ClinicContext context)
+        //{
+        //    context.Database.Migrate();
+
+        //    // Look for any roles.
+        //    if (context.Roles.Any())
+        //    {
+        //        return; // DB has been seeded
+        //    }
+
+        //    var roles = new Role[]
+        //    {
+        //        new Role{RoleName="Admin"},
+        //        new Role{RoleName="User"}
+        //    };
+
+        //    foreach (Role r in roles)
+        //    {
+        //        context.Roles.Add(r);
+        //    }
+        //    context.SaveChanges();
+
+        //    var users = new User[]
+        //    {
+        //        new User{Name="admin", Email="admin@example.com", Password="Admin@123", RoleId=context.Roles.Single(r => r.RoleName == "Admin").RoleId},
+        //        new User{Name="user", Email="user@example.com", Password="User@123", RoleId=context.Roles.Single(r => r.RoleName == "User").RoleId}
+        //    };
+
+        //    foreach (User u in users)
+        //    {
+        //        context.Users.Add(u);
+        //    }
+        //    context.SaveChanges();
+        //}
     }
 }

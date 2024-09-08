@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediClinic.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediClinic.Controllers
 {
@@ -46,10 +47,20 @@ namespace MediClinic.Controllers
             return View("~/Views/Admin/Appointments/Details.cshtml", appointment);
         }
 
+        [Authorize]
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            ViewData["VisitID"] = new SelectList(_context.DoctorVisits, "DoctorID", "DoctorID");
+            var doctorVisits = from visit in _context.DoctorVisits
+                               join doctor in _context.Doctors
+                               on visit.DoctorID equals doctor.DoctorID
+                               select new
+                               {
+                                   visit.VisitID,
+                                   DoctorName = doctor.FullName
+                               };
+
+            ViewData["VisitID"] = new SelectList(doctorVisits, "VisitID", "DoctorName");
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "FullName");
             return View("~/Views/Admin/Appointments/Create.cshtml");
         }
@@ -67,7 +78,16 @@ namespace MediClinic.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VisitID"] = new SelectList(_context.DoctorVisits, "DoctorID", "DoctorID", appointment.VisitID);
+            var doctorVisits = from visit in _context.DoctorVisits
+                               join doctor in _context.Doctors
+                               on visit.DoctorID equals doctor.DoctorID
+                               select new
+                               {
+                                   visit.VisitID,
+                                   DoctorName = doctor.FullName
+                               };
+
+            ViewData["VisitID"] = new SelectList(doctorVisits, "VisitID", "DoctorName");
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "FullName", appointment.PatientID);
             return View("~/Views/Admin/Appointments/Create.cshtml", appointment);
         }
@@ -85,7 +105,16 @@ namespace MediClinic.Controllers
             {
                 return NotFound();
             }
-            ViewData["VisitID"] = new SelectList(_context.DoctorVisits, "DoctorID", "DoctorID", appointment.VisitID);
+            var doctorVisits = from visit in _context.DoctorVisits
+                               join doctor in _context.Doctors
+                               on visit.DoctorID equals doctor.DoctorID
+                               select new
+                               {
+                                   visit.VisitID,
+                                   DoctorName = doctor.FullName
+                               };
+
+            ViewData["VisitID"] = new SelectList(doctorVisits, "VisitID", "DoctorName");
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "FullName", appointment.PatientID);
             return View("~/Views/Admin/Appointments/Edit.cshtml", appointment);
         }
@@ -122,7 +151,16 @@ namespace MediClinic.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VisitID"] = new SelectList(_context.DoctorVisits, "DoctorID", "DoctorID", appointment.VisitID);
+            var doctorVisits = from visit in _context.DoctorVisits
+                               join doctor in _context.Doctors
+                               on visit.DoctorID equals doctor.DoctorID
+                               select new
+                               {
+                                   visit.VisitID,
+                                   DoctorName = doctor.FullName
+                               };
+
+            ViewData["VisitID"] = new SelectList(doctorVisits, "VisitID", "DoctorName");
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "FullName", appointment.PatientID);
             return View("~/Views/Admin/Appointments/Edit.cshtml", appointment);
         }
