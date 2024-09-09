@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediClinic.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediClinic.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DoctorsController : Controller
     {
         private readonly ClinicContext _context;
@@ -19,9 +21,17 @@ namespace MediClinic.Controllers
         }
 
         // GET: Doctors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var doctors = await _context.Doctors.ToListAsync();
+            ViewData["CurrentFilter"] = searchString;
+
+            var doctors = from p in _context.Doctors
+                           select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                doctors = doctors.Where(p => p.FullName.Contains(searchString));
+            }
+
             return View("~/Views/Admin/Doctors/Index.cshtml", doctors);
         }
 
@@ -61,6 +71,13 @@ namespace MediClinic.Controllers
                 _context.Add(doctor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            foreach (var state in ModelState)
+            {
+                foreach (var error in state.Value.Errors)
+                {
+                    Console.WriteLine($"Property: {state.Key} Error: {error.ErrorMessage}");
+                }
             }
             return View("~/Views/Admin/Doctors/Create.cshtml", doctor);
         }

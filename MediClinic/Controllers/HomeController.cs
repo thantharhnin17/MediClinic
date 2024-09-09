@@ -1,4 +1,5 @@
 using MediClinic.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -28,6 +29,7 @@ namespace MediClinic.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Appointment()
         {
             return View();

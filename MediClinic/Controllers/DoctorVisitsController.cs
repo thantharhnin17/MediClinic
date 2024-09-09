@@ -6,24 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediClinic.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediClinic.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DoctorVisitsController : Controller
     {
         private readonly ClinicContext _context;
+        private readonly ILogger<DoctorVisitsController> _logger;
 
-        public DoctorVisitsController(ClinicContext context)
+        public DoctorVisitsController(ClinicContext context, ILogger<DoctorVisitsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: DoctorVisits
         public async Task<IActionResult> Index()
         {
             var clinicContext = _context.DoctorVisits.Include(d => d.Doctor);
-            var doctorVisits = await clinicContext.ToListAsync();
-            return View("~/Views/Admin/DoctorVisits/Index.cshtml", doctorVisits);
+            return View("~/Views/Admin/DoctorVisits/Index.cshtml", await clinicContext.ToListAsync());
         }
 
         // GET: DoctorVisits/Details/5
@@ -46,15 +50,16 @@ namespace MediClinic.Controllers
         }
 
         // GET: DoctorVisits/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            DoctorDropDownList();
+            PopulateDoctorsDropDownList();
             return View("~/Views/Admin/DoctorVisits/Create.cshtml");
         }
 
+        // POST: DoctorVisits/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VisitID,DoctorID,VisitDate,StartTime,EndTime")] DoctorVisit doctorVisit)
+        public async Task<IActionResult> Create([Bind("DoctorID,VisitDate,StartTime,EndTime")] DoctorVisit doctorVisit)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +68,14 @@ namespace MediClinic.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            DoctorDropDownList(doctorVisit.DoctorID);
+            // Log validation errors
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                    _logger.LogError(error.ErrorMessage);
+            }
+
+            PopulateDoctorsDropDownList(doctorVisit.DoctorID);
             return View("~/Views/Admin/DoctorVisits/Create.cshtml", doctorVisit);
         }
 
@@ -80,7 +92,7 @@ namespace MediClinic.Controllers
             {
                 return NotFound();
             }
-            DoctorDropDownList(doctorVisit.DoctorID);
+            PopulateDoctorsDropDownList(doctorVisit.DoctorID);
             return View("~/Views/Admin/DoctorVisits/Edit.cshtml", doctorVisit);
         }
 
@@ -116,7 +128,7 @@ namespace MediClinic.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            DoctorDropDownList(doctorVisit.DoctorID);
+            PopulateDoctorsDropDownList(doctorVisit.DoctorID);
             return View("~/Views/Admin/DoctorVisits/Edit.cshtml", doctorVisit);
         }
 
@@ -158,11 +170,12 @@ namespace MediClinic.Controllers
         {
             return _context.DoctorVisits.Any(e => e.DoctorID == id);
         }
-        private void DoctorDropDownList(object selectedDoctor = null)
+
+        private void PopulateDoctorsDropDownList(object selectedDoctor = null)
         {
             var doctorsQuery = from d in _context.Doctors
-                                   orderby d.FullName
-                                   select d;
+                               orderby d.FullName
+                               select d;
             ViewBag.DoctorID = new SelectList(doctorsQuery.AsNoTracking(), "DoctorID", "FullName", selectedDoctor);
         }
     }

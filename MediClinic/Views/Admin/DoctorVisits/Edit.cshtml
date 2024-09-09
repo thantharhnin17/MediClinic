@@ -10,14 +10,15 @@
 <h4>DoctorVisit</h4>
 <hr />
 <div class="row">
-    <div class="col-12 input-group input-group-outline mb-3">
-        <form asp-action="Edit" class="admin-form">
+    <div class="col-md-4">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="VisitID" />
             <div class="form-group">
-                <label asp-for="DoctorID" class="control-label"></label>
-                <select asp-for="DoctorID" class="form-control" asp-items="ViewBag.DoctorID"></select>
+                <label asp-for="VisitID" class="control-label"></label>
+                <input asp-for="VisitID" class="form-control" />
+                <span asp-validation-for="VisitID" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="DoctorID" />
             <div class="form-group">
                 <label asp-for="VisitDate" class="control-label"></label>
                 <input asp-for="VisitDate" class="form-control" />
@@ -33,7 +34,7 @@
                 <input asp-for="EndTime" class="form-control" />
                 <span asp-validation-for="EndTime" class="text-danger"></span>
             </div>
-            <div class="form-group mt-3">
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

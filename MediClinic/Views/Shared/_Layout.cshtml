@@ -76,7 +76,11 @@
                         <a class="nav-item nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="Service">Service</a>
-                        <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="Appointment">Service</a>
+                        <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="Appointment">Appointment</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="nav-item nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                        }
                     </div>
                     <partial name="_LoginPartial" />
                 </div>

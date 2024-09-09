@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediClinic.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MediClinic.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PatientsController : Controller
     {
         private readonly ClinicContext _context;
@@ -19,11 +21,21 @@ namespace MediClinic.Controllers
         }
 
         // GET: Patients
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(string searchString)
         {
-            var patients = await _context.Patients.ToListAsync();
+            ViewData["CurrentFilter"] = searchString;
+
+            var patients = from p in _context.Patients
+                           select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                patients = patients.Where(p => p.FullName.Contains(searchString));
+            }
+
             return View("~/Views/Admin/Patients/Index.cshtml", patients);
         }
+
 
         // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -7,11 +7,10 @@ public class DoctorVisit
     [Key]
     public int VisitID { get; set; }
 
-    [Required]
-    [ForeignKey("Doctor")]
     public int DoctorID { get; set; }
 
-    [Required]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime VisitDate { get; set; }
 
     [Required]
@@ -20,5 +19,6 @@ public class DoctorVisit
     [Required]
     public TimeSpan EndTime { get; set; }
 
+    [ForeignKey("DoctorID")]
     public Doctor Doctor { get; set; }
 }

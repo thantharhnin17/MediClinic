@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediClinic.Migrations
 {
     [DbContext(typeof(ClinicContext))]
-    [Migration("20240906182126_delete_booking_table")]
-    partial class delete_booking_table
+    [Migration("20240909070146_SeedDataAppointmentTable")]
+    partial class SeedDataAppointmentTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,7 @@ namespace MediClinic.Migrations
 
                     b.HasIndex("VisitID");
 
-                    b.ToTable("Booking", (string)null);
+                    b.ToTable("Appointment", (string)null);
                 });
 
             modelBuilder.Entity("Doctor", b =>
@@ -155,12 +155,17 @@ namespace MediClinic.Migrations
             modelBuilder.Entity("DoctorVisit", b =>
                 {
                     b.HasOne("Doctor", "Doctor")
-                        .WithMany()
+                        .WithMany("DoctorVisits")
                         .HasForeignKey("DoctorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("Doctor", b =>
+                {
+                    b.Navigation("DoctorVisits");
                 });
 #pragma warning restore 612, 618
         }

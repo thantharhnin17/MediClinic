@@ -7,15 +7,12 @@ public class Appointment
     [Key]
     public int AppointmentID { get; set; }
 
-    [Required]
     [ForeignKey("Patient")]
     public int PatientID { get; set; }
 
-    [Required]
     [ForeignKey("DoctorVisit")]
     public int VisitID { get; set; }
 
-    [Required]
     public DateTime AppointmentDate { get; set; } = DateTime.Now;
 
     public Patient Patient { get; set; }

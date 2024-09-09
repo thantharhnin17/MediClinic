@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
 }
 
-<h1>Doctor Schedule</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,6 +13,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitID)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.VisitDate)
             </th>
@@ -31,6 +34,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitID)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VisitDate)
             </td>

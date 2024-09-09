@@ -19,6 +19,8 @@ namespace MediClinic.Controllers
             _context = context;
         }
 
+
+        [Authorize(Roles = "Admin")]
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
@@ -27,6 +29,8 @@ namespace MediClinic.Controllers
             return View("~/Views/Admin/Appointments/Index.cshtml", appointments);
         }
 
+
+        [Authorize(Roles = "Admin")]
         // GET: Appointments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -68,6 +72,7 @@ namespace MediClinic.Controllers
         // POST: Appointments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AppointmentID,PatientID,VisitID,AppointmentDate")] Appointment appointment)
@@ -92,6 +97,8 @@ namespace MediClinic.Controllers
             return View("~/Views/Admin/Appointments/Create.cshtml", appointment);
         }
 
+
+        [Authorize(Roles = "Admin")]
         // GET: Appointments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -122,6 +129,8 @@ namespace MediClinic.Controllers
         // POST: Appointments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AppointmentID,PatientID,VisitID,AppointmentDate")] Appointment appointment)
@@ -165,6 +174,8 @@ namespace MediClinic.Controllers
             return View("~/Views/Admin/Appointments/Edit.cshtml", appointment);
         }
 
+
+        [Authorize(Roles = "Admin")]
         // GET: Appointments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -185,6 +196,8 @@ namespace MediClinic.Controllers
             return View("~/Views/Admin/Appointments/Delete.cshtml", appointment);
         }
 
+
+        [Authorize(Roles = "Admin")]
         // POST: Appointments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

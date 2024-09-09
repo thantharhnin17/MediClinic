@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediClinic.Migrations
 {
     [DbContext(typeof(ClinicContext))]
-    [Migration("20240907182353_create_user_table_role_table")]
-    partial class create_user_table_role_table
+    [Migration("20240909065348_DropBookingTable")]
+    partial class DropBookingTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,56 +100,6 @@ namespace MediClinic.Migrations
                     b.ToTable("DoctorVisit", (string)null);
                 });
 
-            modelBuilder.Entity("MediClinic.Models.Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Role", (string)null);
-                });
-
-            modelBuilder.Entity("MediClinic.Models.User", b =>
-                {
-                    b.Property<int>("UserID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserID");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("User", (string)null);
-                });
-
             modelBuilder.Entity("Patient", b =>
                 {
                     b.Property<int>("PatientID")
@@ -205,7 +155,7 @@ namespace MediClinic.Migrations
             modelBuilder.Entity("DoctorVisit", b =>
                 {
                     b.HasOne("Doctor", "Doctor")
-                        .WithMany()
+                        .WithMany("DoctorVisits")
                         .HasForeignKey("DoctorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -213,15 +163,9 @@ namespace MediClinic.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("MediClinic.Models.User", b =>
+            modelBuilder.Entity("Doctor", b =>
                 {
-                    b.HasOne("MediClinic.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
+                    b.Navigation("DoctorVisits");
                 });
 #pragma warning restore 612, 618
         }
